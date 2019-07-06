@@ -15,6 +15,10 @@ app.use(routes);
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/aguacate_db");
 
+// mongoose.connection.on("connected", () =>{
+//   console.log("we are connected to DB!");
+// });
+
 app.listen(PORT, function() {
   console.log(`Listening on port ${PORT}`);
 });

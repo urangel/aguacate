@@ -1,11 +1,11 @@
 const db = require("../models");
 
 module.exports = {
-  findAll: function(req, res) {
+  getUniqueRegions: (req, res) => {
     db.Avocado
-      .find(req.query)
-      .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
+      .find({})
+      .distinct("region")
+      .then(data => res.json(data))
       .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {

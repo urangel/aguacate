@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
+import FieldSelection from "./components/FieldSelection"
 
 export class App extends Component {
   render() {
     return (
       <div>
-        <select>
-          <option value="Filter Your Choice">-- Filter Your Choice --</option>
-        </select>
+        <h1>Aguacate</h1>
+        <FieldSelection/>
       </div>
     )
   }
