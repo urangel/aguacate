@@ -8,12 +8,8 @@ export default {
     return axios.get("/api/regions");
   },
 
-  getData: (region, queryType) => {
-    console.log(queryType);
-    return axios.get("/api/data", {
-      region: region,
-      type: queryType
-    });
+  getData: (region) => {
+    return axios.get("/api/data/" + region);
   }
 
 };

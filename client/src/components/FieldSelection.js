@@ -21,23 +21,26 @@ export class FieldSelection extends Component {
 
   getUniqueRegions = () => {
     API.getRegions()
-      .then( res =>{
+      .then( res => {
         this.setState({
           regions: res.data
         })
       })
-      .catch("whoops");
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  getData = (region, type) => {
-    let queryType = '_' + type;
-    API.getData(region, queryType)
+  getData = (region) => {
+    API.getData(region)
       .then( res => {
         this.setState({
           data: res.data
         })
-        console.log(res.data)
       })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   componentDidMount() {
@@ -78,7 +81,7 @@ export class FieldSelection extends Component {
 
         </select>
 
-        <button onClick = {() => this.getData(this.state.region, this.state.type)}>Button</button>
+        <button onClick = { () => this.getData(this.state.region)}>Button</button>
         
         {/* <select>
           <option>Default</option>

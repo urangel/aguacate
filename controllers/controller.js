@@ -9,12 +9,9 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   getData: (req, res) => {
-    console.log(req.body);
     db.Avocado
-      .find('average_price')
-      .where({region: req.body.region})
-      .where({type: req.body.type})
-      .then(data => res.json(data))
+      .find({region: req.params.region})
+      .then(data => res.json(data)) 
       .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {
