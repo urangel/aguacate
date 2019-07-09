@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(routes);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/aguacate_db");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/aguacate_db", {useNewUrlParser: true});
 
 // mongoose.connection.on("connected", () =>{
 //   console.log("we are connected to DB!");

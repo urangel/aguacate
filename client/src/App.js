@@ -1,11 +1,25 @@
 import React, { Component } from 'react'
+// import API from "./util/API"
 import FieldSelection from "./components/FieldSelection"
 
 export class App extends Component {
+  constructor(props){
+    super(props);
+    // this.state = {
+    //   regions: {},
+    //   region: "",
+    //   type: ""
+    // }
+    // this.getUniqueRegions = this.getUniqueRegions.bind(this);
+  }
+
+  
+
   render() {
     return (
       <div>
         <h1>Aguacate</h1>
+        {/* <FieldSelection regions={this.state.regions}/> */}
         <FieldSelection/>
       </div>
     )
