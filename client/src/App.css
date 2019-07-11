@@ -1,0 +1,13 @@
+.point:hover{
+  fill: olivedrab;
+}
+
+.point {
+  fill: olive;
+}
+
+#chart{
+  /* overflow: scroll; */
+  width: 100%;
+  min-height: 80vh;
+}
