@@ -58,11 +58,22 @@ export class Chart extends Component {
         .append("circle")
         .attr("cx", (d, i) => xScale(i))
         .attr("cy", d => yScale(d[1]))
-        .attr("r", 2)
+        .attr("r", 3)
         .attr("class", "point")
         .append("title")
         .text(d => d[0] + ", " + d[1]);
 
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+
+    svg.append("g")
+       .attr("transform", "translate(0," + (h - padding) + ")")
+       .call(xAxis);
+
+    svg.append("g")
+       .attr("transform", "translate(50, 0)")
+       .call(yAxis);
+    
     // svg.selectAll("text")
     //     .data(tuples)
     //     .enter()
