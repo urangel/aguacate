@@ -63,25 +63,29 @@ export class FieldSelection extends Component {
     this.setState({
       [e.target.name]: e.target.value
     }) 
+    if (e.target.name === "region"){
+      this.getData(e.target.value);
+    }
   }
 
   render() {
     return (
       <div>
+        <h1>Aguacate</h1>
         <select name="region" value={this.state.region} onChange={this.handleChange}>
           <option> -- Choose a Region -- </option>
           {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
         </select>
         
-        <select name="type" value={this.state.type} onChange={this.handleChange}>
+        {/* <select name="type" value={this.state.type} onChange={this.handleChange}>
           <option> -- Choose a Type -- </option>
           <option>4046</option>
           <option>4225</option>
           <option>4770</option>
 
-        </select>
+        </select> */}
 
-        <button onClick = { () => this.getData(this.state.region)}>Button</button>
+        {/* <button onClick = { () => this.getData(this.state.region)}>Button</button> */}
         
         {/* <select>
           <option>Default</option>

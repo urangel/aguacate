@@ -6,8 +6,53 @@
   fill: olive;
 }
 
+.axis {
+  fill: #222;
+}
+
+
+path { 
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
 #chart{
-  /* overflow: scroll; */
   width: 100%;
   min-height: 80vh;
+}
+
+body {
+  background-color: olivedrab;
+  color: #eee;
+  font-family: "Pacifico";
+}
+
+h1 {
+  font-size: 5rem;
+  font-weight: 1;
+
+}
+
+h3 {
+  font-weight: 1;
+  float: right;
+}
+
+select, button {
+  font-family: Roboto;
+  font-weight: bold;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.tooltip {
+  background-color: aqua;
 }
