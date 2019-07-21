@@ -10,6 +10,9 @@
   fill: #222;
 }
 
+.grid {
+  opacity: .2;
+}
 
 path { 
   stroke: steelblue;
@@ -55,4 +58,13 @@ select, button {
 
 .tooltip {
   background-color: aqua;
+  fill: red;
+  color: red;
+}
+
+title {
+  fill: red;
+  color: red;
+  background-color: aqua;
+
 }
