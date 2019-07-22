@@ -30,10 +30,13 @@ line {
   width: 100%;
   min-height: 80vh;
 }
-
+#select-div{
+  display: flex;
+  justify-content: flex-end;
+}
 body {
-  background-color: olivedrab;
-  color: #eee;
+  background: url("/green_cup.png");
+  /* color: #eee; */
   font-family: "Pacifico";
 }
 
@@ -56,6 +59,10 @@ select, button {
   border-radius: 5px;
 }
 
+select{
+  width: 22.2%;
+}
+
 .tooltip {
   background-color: aqua;
   fill: red;
@@ -67,4 +74,14 @@ title {
   color: red;
   background-color: aqua;
 
+}
+
+@media only screen and (max-width: 992px){
+  select{
+    width: 66.7%;
+    float: right;
+  }
+  #select-div{
+    display: block;
+  }
 }

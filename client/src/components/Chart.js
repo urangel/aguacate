@@ -21,37 +21,38 @@ export class Chart extends Component {
     const w = document.getElementById("chart").offsetWidth;
     const padding = 50;
 
-    let len = Object.values(this.props.data).length;
+    
     let values;
     let filtered_data = this.props.data.filter(obj => obj.type == this.props.type);
+    let len = filtered_data.length;
 
     switch (this.props.data_focus){
       case "Average Price": 
         values = Object.values(filtered_data).map( obj => obj.average_price);
         break;
       case "4046 - Total SM Sold":
-        values = Object.values(filtered_data).map( obj => obj._4046);
+        values = Object.values(filtered_data).map( obj => parseInt(obj._4046));
         break;
       case "4046 - Total SM Bags Sold":
-          values = Object.values(filtered_data).map( obj => obj.small_bags);
-          break;
+        values = Object.values(filtered_data).map( obj => parseInt(obj.small_bags));
+        break;
       case "4225 - Total LG Sold":
-        values = Object.values(filtered_data).map( obj => obj._4225);
+        values = Object.values(filtered_data).map( obj => parseInt(obj._4225));
         break;
       case "4225 - Total LG Bags Sold":
-        values = Object.values(filtered_data).map( obj => obj.large_bags);
+        values = Object.values(filtered_data).map( obj => parseInt(obj.large_bags));
         break;
       case "4770 - Total XL Sold":
-        values = Object.values(filtered_data).map( obj => obj._4770);
+        values = Object.values(filtered_data).map( obj => parseInt(obj._4770));
         break;
       case "4770 - Total XL Bags Sold":
-        values = Object.values(filtered_data).map( obj => obj._4770);
+        values = Object.values(filtered_data).map( obj => parseInt(obj._4770));
         break;
       case "Total Sold":
-        values = Object.values(filtered_data).map( obj => obj.total_volume);
+        values = Object.values(filtered_data).map( obj => parseInt(obj.total_volume));
         break;
       case "Total Bags Sold":
-        values = Object.values(filtered_data).map( obj => obj.total_bags);
+        values = Object.values(filtered_data).map( obj => parseInt(obj.total_bags));
         break;
       default: 
         values = Object.values(filtered_data).map( obj => obj.average_price);
@@ -72,7 +73,7 @@ export class Chart extends Component {
       }
     })();
 
-  let make_grid = (scale, axis) => {
+  const make_grid = (scale, axis) => {
     if (axis === "x"){
       return d3.axisBottom(scale);
     } else {
@@ -91,13 +92,19 @@ export class Chart extends Component {
     //                 .domain([0, len])
     //                 .range([padding, w - padding]);
     
+    const formatTime = d3.timeFormat("%B %d, %Y");
+
+    const valuesExtent = d3.extent(values, d => d);
+
+    const plotAdjuster = (valuesExtent[1] -  valuesExtent[0]) / 10;
 
     const xScale = d3.scaleTime()
                       .domain(d3.extent(date, d => d))
                       .range([padding, w - padding]);
 
     const yScale = d3.scaleLinear()
-                    .domain([d3.min(values), d3.max(values)])
+                    .domain([d3.min(values) - plotAdjuster, 
+                            d3.max(values) + plotAdjuster])
                     .range([h - padding, padding]);
 
     // const line = d3.line()
@@ -125,7 +132,7 @@ export class Chart extends Component {
         .attr("class", "point")
         .append("title")
         .attr("class", "tooltip")
-        .text(d => d[0] + ", " + parseInt(d[1]));
+        .text(d => formatTime(d[0]) + " - " + d[1]);
         // .append("path")
         // .attr("class", "line")
         // .datum(tuples)
@@ -174,7 +181,7 @@ export class Chart extends Component {
 
     return (
       <div id="chart">
-        <h3>Chart</h3>
+        {/* <h3>Chart</h3> */}
         <button onClick={this.drawPlot}>Plot</button>
       </div>
     )

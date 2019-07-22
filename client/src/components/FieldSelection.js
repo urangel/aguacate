@@ -73,30 +73,33 @@ export class FieldSelection extends Component {
     return (
       <div>
         <h1>Aguacate</h1>
-        <select name="region" value={this.state.region} onChange={this.handleChange}>
-          <option> -- Choose a Region -- </option>
-          {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
-        </select>
+        <div id="select-div">
+          <select name="region" value={this.state.region} onChange={this.handleChange}>
+            <option> -- Choose a Region -- </option>
+            {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
+          </select>
+          
+          <select name="data_focus" value={this.state.data_focus} onChange={this.handleChange}>
+            <option> -- Choose Data of Interest -- </option>
+            <option>4046 - Total SM Sold</option>
+            <option>4046 - Total SM Bags Sold</option>
+            <option>4225 - Total LG Sold</option>
+            <option>4225 - Total LG Bags Sold</option>
+            <option>4770 - Total XL Sold</option>
+            <option>4770 - Total XL Bags Sold</option>
+            <option>Total Sold</option>
+            <option>Total Bags Sold</option>
+            <option>Average Price</option>
+          </select>
+
+
+          <select name="type" value={this.state.type} onChange={this.handleChange}>
+            <option> -- Choose Type -- </option>
+            <option>Conventional</option>
+            <option>Organic</option>
+          </select>
+        </div>
         
-        <select name="data_focus" value={this.state.data_focus} onChange={this.handleChange}>
-          <option> -- Choose Data of Interest -- </option>
-          <option>4046 - Total SM Sold</option>
-          <option>4046 - Total SM Bags Sold</option>
-          <option>4225 - Total LG Sold</option>
-          <option>4225 - Total LG Bags Sold</option>
-          <option>4770 - Total XL Sold</option>
-          <option>4770 - Total XL Bags Sold</option>
-          <option>Total Sold</option>
-          <option>Total Bags Sold</option>
-          <option>Average Price</option>
-        </select>
-
-
-        <select name="type" value={this.state.type} onChange={this.handleChange}>
-          <option> -- Choose Type -- </option>
-          <option>Conventional</option>
-          <option>Organic</option>
-        </select>
         {/* <button onClick = { () => this.getData(this.state.region)}>Button</button> */}
         
         {/* <select>
