@@ -331,10 +331,20 @@ export class Chart extends Component {
 
     return (
       <div id="chart">
-        {/* <h3>Chart</h3> */}
         <button id="plot-button" onClick={this.drawPlot}>Plot</button>
         <button id="update-button" onClick={this.update}>Update</button>
-
+        <h3>
+          {this.props.type.length > 1 ? 
+          this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1) + " ": 
+          "Conventional "} 
+          {this.props.data_focus.length > 1 ? 
+            (this.props.data_focus.charAt(0) === "4" ? 
+            this.props.data_focus.slice(7, this.props.data_focus.length) :
+            this.props.data_focus) :
+          "Average Price"}  in
+          {" " + this.props.region + " "} 
+          Over Time
+        </h3>
       </div>
     )
   }

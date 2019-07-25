@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Chart from "./Chart"
+import Chart from "../components/Chart"
 import API from "../util/API"
 
 export class FieldSelection extends Component {
@@ -106,7 +106,7 @@ export class FieldSelection extends Component {
           <option>Default</option>
 
         </select> */}
-        <Chart data={this.state.data} type={this.state.type.toLocaleLowerCase()} data_focus={this.state.data_focus}/>
+        <Chart data={this.state.data} region={this.state.region} type={this.state.type.toLocaleLowerCase()} data_focus={this.state.data_focus}/>
         
       </div>
     )

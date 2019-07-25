@@ -6,8 +6,6 @@ import * as serviceWorker from './serviceWorker';
 import {createStore, combineReducers} from "redux";
 import {Provider} from "react-redux";
 import regionReducer from "./reducers/regionReducer"
-import FieldSelection from "./components/FieldSelection"
-import Chart from "./components/Chart"
 
 const store = createStore(combineReducers(regionReducer), {});
 

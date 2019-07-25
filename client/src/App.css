@@ -39,7 +39,7 @@ line {
 }
 body {
   background: url("/green_cup.png");
-  /* color: #eee; */
+  color: #222;
   font-family: "Pacifico";
 }
 
@@ -51,7 +51,7 @@ h1 {
 
 h3 {
   font-weight: 1;
-  float: right;
+  text-align: center;
 }
 
 select, button {
