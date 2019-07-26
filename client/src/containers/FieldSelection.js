@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Chart from "../components/Chart"
 import API from "../util/API"
+// import Avocado from "../components/Avocado"
 
 export class FieldSelection extends Component {
   
@@ -12,11 +13,9 @@ export class FieldSelection extends Component {
       region: "",
       type: "",
       data_focus: "",
-      data: {}
+      data: {},
+      previousSearches: []
     }
-
-    this.getUniqueRegions = this.getUniqueRegions.bind(this);
-    this.getData = this.getData.bind(this);
 
   }
 
@@ -55,9 +54,11 @@ export class FieldSelection extends Component {
     // this.getData(this.state.region, this.state.type);
   }
 
-  // componentWillReceiveProps() {
-  //   console.log("new props received!");
-  // }
+  addSearch = (searchObject) => {
+    this.setState({
+      previousSearches: [...this.state.previousSearches, searchObject]
+    })
+  }
 
   handleChange = (e) => {
     let {name, value} = e.target;
@@ -72,41 +73,55 @@ export class FieldSelection extends Component {
   render() {
     return (
       <div>
-        <h1>Aguacate</h1>
-        <div id="select-div">
-          <select name="region" value={this.state.region} onChange={this.handleChange}>
-            <option> -- Choose a Region -- </option>
-            {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
-          </select>
+        <div id="above-fold">
+        {/* <h1>Aguacate</h1> */}
+          <div id="grid">
+            <svg id="title-svg" viewBox="0 0 75 25">
+              <text x="0" y="15">Aguacate</text>
+            </svg>
+            <div id="previous-searches">
+              {/* {this.state.previousSearches.map(each => {
+                return <button>{`${each.region} ${each.data_focus} ${each.type}`}</button>
+              })} */}
+            </div>
+          </div>
           
-          <select name="data_focus" value={this.state.data_focus} onChange={this.handleChange}>
-            <option> -- Choose Data of Interest -- </option>
-            <option>4046 - Total SM Sold</option>
-            <option>4046 - Total SM Bags Sold</option>
-            <option>4225 - Total LG Sold</option>
-            <option>4225 - Total LG Bags Sold</option>
-            <option>4770 - Total XL Sold</option>
-            <option>4770 - Total XL Bags Sold</option>
-            <option>Total Sold</option>
-            <option>Total Bags Sold</option>
-            <option>Average Price</option>
-          </select>
+          {/* <Avocado/> */}
+          <div id="select-div">
+            <select name="region" value={this.state.region} onChange={this.handleChange}>
+              <option> -- Choose a Region -- </option>
+              {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
+            </select>
+            
+            <select name="data_focus" value={this.state.data_focus} onChange={this.handleChange}>
+              <option> -- Choose Data of Interest -- </option>
+              <option>4046 - Total SM Sold</option>
+              <option>4046 - Total SM Bags Sold</option>
+              <option>4225 - Total LG Sold</option>
+              <option>4225 - Total LG Bags Sold</option>
+              <option>4770 - Total XL Sold</option>
+              <option>4770 - Total XL Bags Sold</option>
+              <option>Total Sold</option>
+              <option>Total Bags Sold</option>
+              <option>Average Price</option>
+            </select>
 
 
-          <select name="type" value={this.state.type} onChange={this.handleChange}>
-            <option> -- Choose Type -- </option>
-            <option>Conventional</option>
-            <option>Organic</option>
-          </select>
+            <select name="type" value={this.state.type} onChange={this.handleChange}>
+              <option> -- Choose Type -- </option>
+              <option>Conventional</option>
+              <option>Organic</option>
+            </select>
+          </div>
         </div>
         
-        {/* <button onClick = { () => this.getData(this.state.region)}>Button</button> */}
-        
-        {/* <select>
-          <option>Default</option>
-
-        </select> */}
-        <Chart data={this.state.data} region={this.state.region} type={this.state.type.toLocaleLowerCase()} data_focus={this.state.data_focus}/>
+        <Chart 
+          data={this.state.data} 
+          region={this.state.region} 
+          type={this.state.type.toLocaleLowerCase()} 
+          data_focus={this.state.data_focus}
+          addSearch={(searchObject) => this.addSearch(searchObject)}
+        />
         
       </div>
     )

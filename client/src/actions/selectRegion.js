@@ -1,8 +1,4 @@
-const SELECTREGION = "SELECTREGION";
-
-const selectRegion = (region) => {
-  return {
-    type: SELECTREGION,
+export const selectRegion = region => ({
+    type: "SELECTREGION",
     payload: region
-  }
-};
+});

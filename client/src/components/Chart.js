@@ -9,24 +9,30 @@ export class Chart extends Component {
 
   }
 
-  // componentDidMount() {
-    
-  // }
-
-  // componentDidUpdate(prevProps){
-  //   if( typeof prevProps.data[0].average_price !== undefined && 
-  //       prevProps.data[0].average_price !== this.props.data[0].average_price){
-  //   }
-  // }
   update = () => {
     document.getElementById("tooltip").remove();
-    const h = document.getElementById("chart").offsetHeight;
+    const plot_svg = document.getElementById("plot-svg");
+    const rect = plot_svg.getBoundingClientRect();
+    const h = rect.height;
     const w = document.getElementById("chart").offsetWidth;
-    const padding = 50;
+    const padding = 75;
 
-    
+    let searchObject = {
+      region: this.props.region,
+      data_focus: this.props.data_focus,
+      type: this.props.type === "" ? "conventional" : this.props.type
+    }
+
+    this.props.addSearch(searchObject);
+
     let values;
-    let filtered_data = this.props.data.filter(obj => obj.type == this.props.type);
+    let filtered_data = this.props.data.filter(obj => {
+      if(this.props.type === ""){
+        return obj.type === "conventional";
+      } else {
+        return obj.type === this.props.type;
+      }
+    });
     let len = filtered_data.length;
 
     switch (this.props.data_focus){
@@ -101,7 +107,7 @@ export class Chart extends Component {
     const yScale = d3.scaleLinear()
                     .domain([d3.min(values) - plotAdjuster, 
                             d3.max(values) + plotAdjuster])
-                    .range([h - padding - 38, padding]);
+                    .range([h - padding, padding]);
 
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
@@ -109,7 +115,7 @@ export class Chart extends Component {
     // const t = d3.transition()
     // .duration(750);
 
-    const svg = d3.select("svg");
+    const svg = d3.select("#plot-svg");
 
     const tooltip = d3.select("body")
                       .append("div")
@@ -145,13 +151,13 @@ export class Chart extends Component {
     svg.select(".y.axis")
       .transition()
       .duration(750)
-      .attr("transform", "translate(50, 0)")
+      .attr("transform", "translate(75, 0)")
       .call(yAxis);
 
     svg.select(".y.grid")			
       .transition()
       .duration(750)
-      .attr("transform", "translate(50, 0)")
+      .attr("transform", "translate(75, 0)")
       .call(make_grid(yScale, "y")
       .tickSize(-(w-(2*padding)))
       .tickFormat("")
@@ -161,7 +167,14 @@ export class Chart extends Component {
   drawPlot = () => {
     const h = document.getElementById("chart").offsetHeight;
     const w = document.getElementById("chart").offsetWidth;
-    const padding = 50;
+    const padding = 75;
+    let searchObject = {
+      region: this.props.region,
+      data_focus: this.props.data_focus,
+      type: this.props.type === "" ? "conventional" : this.props.type
+    }
+
+    this.props.addSearch(searchObject);
 
     
     let values;
@@ -254,7 +267,8 @@ export class Chart extends Component {
     const svg = d3.select("#chart")
                   .append("svg")
                   .attr("width", w)
-                  .attr("height", h);
+                  .attr("height", h)
+                  .attr("id", "plot-svg");
 
     const tooltip = d3.select("body")
                       .append("div")
@@ -267,7 +281,8 @@ export class Chart extends Component {
         .attr("width", w - padding - padding)
         .attr("height", h - padding - padding)
         .attr("fill", "#eee")
-        .attr("transform", "translate(50, 50)");
+        .attr("transform", "translate(75, 75)")
+        .attr("id", "plot-background");
 
     const point = svg.selectAll("circle")
         .data(tuples)
@@ -275,7 +290,7 @@ export class Chart extends Component {
         .append("circle")
         .attr("cx", (d, i) => xScale(d[0]))
         .attr("cy", d => yScale(d[1]))
-        .attr("r", 4)
+        .attr("r", window.screen.width > 768 ? 4 : 2)
         .attr("class", "point");
 
     point.on("mouseover", d => {
@@ -295,13 +310,28 @@ export class Chart extends Component {
             .style("display", "none");
     });
 
-    svg.append("g")
-       .attr("transform", "translate(0," + (h - padding) + ")")
-       .attr("class", "x axis")
-       .call(xAxis);
+    if(window.screen.width > 768){
+      svg.append("g")
+      .attr("transform", "translate(0," + (h - padding) + ")")
+      .attr("class", "x axis")
+      .call(xAxis);
+    } else {
+      svg.append("g")
+      .attr("transform", "translate(0," + (h - padding) + ")")
+      .attr("class", "x axis")
+      .call(xAxis)
+      .selectAll("text")
+      .attr("y", 0)
+      .attr("x", 9)
+      .attr("dy", ".35em")
+      .attr("transform", "rotate(90)")
+      .style("text-anchor", "start");
+    }
+    
+
 
     svg.append("g")
-       .attr("transform", "translate(50, 0)")
+       .attr("transform", "translate(75, 0)")
        .attr("class", "y axis")
        .call(yAxis);
     
@@ -316,7 +346,7 @@ export class Chart extends Component {
 
     svg.append("g")			
       .attr("class", "y grid")
-      .attr("transform", "translate(50, 0)")
+      .attr("transform", "translate(75, 0)")
       .call(make_grid(yScale, "y")
           .tickSize(-(w-(2*padding)))
           .tickFormat("")
