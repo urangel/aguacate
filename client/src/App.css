@@ -12,13 +12,14 @@ h1 {
 h3 {
   font-weight: 1;
   text-align: center;
+  margin: 0;
 }
 
 select, button {
   font-family: Roboto;
   font-weight: bold;
   padding: 5px;
-  margin: 5px;
+  margin-right: 5px;
   border-radius: 3px;
 }
 
@@ -26,11 +27,17 @@ select{
   z-index: 1;
   width: 22.2%;
 }
-
+a {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  color: #eee;
+  font-weight: normal;
+}
 button {
   background: linear-gradient(to right, olive, olivedrab);
   color: #eee;
   border-style: none;
+  padding: 5px 20px;
 }
 
 button:hover{
@@ -54,6 +61,7 @@ line {
 .point:hover{
   fill: olivedrab;
   opacity: 0.8;
+  cursor: help;
 }
 
 .point {
@@ -76,14 +84,19 @@ line {
   color: #eee;
   font-family: Roboto;
 }
+#about-text{
+  font-family: Roboto;
+  font-weight: bold;
+}
 #grid{
   display: grid;
   grid-template-columns: 33% 67%;
+  max-height: 20vh;
 }
 /* #previous-searches{
   overflow: scroll;
 } */
-#above-fold{
+#top-content{
   max-height: 20vh;
 }
 #chart{
@@ -113,7 +126,10 @@ line {
     flex-basis: 1;
   }
   #select-div{
-    justify-content: space-evenly;
+    justify-content: flex-end;
+  }
+  h2{
+    margin: 5px 0;
   }
 }
 

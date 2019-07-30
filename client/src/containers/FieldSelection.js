@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Chart from "../components/Chart"
 import API from "../util/API"
+import About from "../components/About"
 // import Avocado from "../components/Avocado"
 
 export class FieldSelection extends Component {
@@ -73,12 +74,13 @@ export class FieldSelection extends Component {
   render() {
     return (
       <div>
-        <div id="above-fold">
+        <div id="top-content">
         {/* <h1>Aguacate</h1> */}
           <div id="grid">
             <svg id="title-svg" viewBox="0 0 75 25">
               <text x="0" y="15">Aguacate</text>
             </svg>
+            {window.screen.width > 640 ? <About/> : <div></div>}
             <div id="previous-searches">
               {/* {this.state.previousSearches.map(each => {
                 return <button>{`${each.region} ${each.data_focus} ${each.type}`}</button>

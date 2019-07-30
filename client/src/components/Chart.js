@@ -165,7 +165,7 @@ export class Chart extends Component {
   }
 
   drawPlot = () => {
-    const h = document.getElementById("chart").offsetHeight;
+    const h = document.getElementById("chart").offsetHeight - 75;
     const w = document.getElementById("chart").offsetWidth;
     const padding = 75;
     let searchObject = {
@@ -327,8 +327,6 @@ export class Chart extends Component {
       .attr("transform", "rotate(90)")
       .style("text-anchor", "start");
     }
-    
-
 
     svg.append("g")
        .attr("transform", "translate(75, 0)")
