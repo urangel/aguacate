@@ -1,15 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import * as d3 from "d3"
 
-export class Chart extends Component {
-  constructor(props){
-    super(props);
-    this.drawPlot = this.drawPlot.bind(this);
-    this.update = this.update.bind(this);
-
-  }
-
-  update = () => {
+export const Chart = (props) => {
+  
+  const update = () => {
     document.getElementById("tooltip").remove();
     const plot_svg = document.getElementById("plot-svg");
     const rect = plot_svg.getBoundingClientRect();
@@ -18,24 +12,24 @@ export class Chart extends Component {
     const padding = 75;
 
     let searchObject = {
-      region: this.props.region,
-      data_focus: this.props.data_focus,
-      type: this.props.type === "" ? "conventional" : this.props.type
+      region: props.region,
+      data_focus: props.data_focus,
+      type: props.type === "" ? "conventional" : props.type
     }
 
-    this.props.addSearch(searchObject);
+    props.addSearch(searchObject);
 
     let values;
-    let filtered_data = this.props.data.filter(obj => {
-      if(this.props.type === ""){
+    let filtered_data = props.data.filter(obj => {
+      if(props.type === ""){
         return obj.type === "conventional";
       } else {
-        return obj.type === this.props.type;
+        return obj.type === props.type;
       }
     });
     let len = filtered_data.length;
 
-    switch (this.props.data_focus){
+    switch (props.data_focus){
       case "Average Price": 
         values = Object.values(filtered_data).map( obj => obj.average_price);
         break;
@@ -109,11 +103,7 @@ export class Chart extends Component {
                             d3.max(values) + plotAdjuster])
                     .range([h - padding, padding]);
 
-    const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
-
-    // const t = d3.transition()
-    // .duration(750);
 
     const svg = d3.select("#plot-svg");
 
@@ -164,30 +154,30 @@ export class Chart extends Component {
       )
   }
 
-  drawPlot = () => {
+  const drawPlot = () => {
     const h = document.getElementById("chart").offsetHeight - 75;
     const w = document.getElementById("chart").offsetWidth;
     const padding = 75;
     let searchObject = {
-      region: this.props.region,
-      data_focus: this.props.data_focus,
-      type: this.props.type === "" ? "conventional" : this.props.type
+      region: props.region,
+      data_focus: props.data_focus,
+      type: props.type === "" ? "conventional" : props.type
     }
 
-    this.props.addSearch(searchObject);
+    props.addSearch(searchObject);
 
     
     let values;
-    let filtered_data = this.props.data.filter(obj => {
-      if(this.props.type === ""){
+    let filtered_data = props.data.filter(obj => {
+      if(props.type === ""){
         return obj.type === "conventional";
       } else {
-        return obj.type === this.props.type;
+        return obj.type === props.type;
       }
     });
     let len = filtered_data.length;
 
-    switch (this.props.data_focus){
+    switch (props.data_focus){
       case "Average Price": 
         values = Object.values(filtered_data).map( obj => obj.average_price);
         break;
@@ -355,27 +345,27 @@ export class Chart extends Component {
 
   }
 
-  render() {
+  
 
     return (
       <div id="chart">
-        <button id="plot-button" onClick={this.drawPlot}>Plot</button>
-        <button id="update-button" onClick={this.update}>Update</button>
+        <button id="plot-button" onClick={drawPlot}>Plot</button>
+        <button id="update-button" onClick={update}>Update</button>
         <h3>
-          {this.props.type.length > 1 ? 
-          this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1) + " ": 
+          {props.type.length > 1 ? 
+          props.type.charAt(0).toUpperCase() + props.type.slice(1) + " ": 
           "Conventional "} 
-          {this.props.data_focus.length > 1 ? 
-            (this.props.data_focus.charAt(0) === "4" ? 
-            this.props.data_focus.slice(7, this.props.data_focus.length) :
-            this.props.data_focus) :
+          {props.data_focus.length > 1 ? 
+            (props.data_focus.charAt(0) === "4" ? 
+            props.data_focus.slice(7, props.data_focus.length) :
+            props.data_focus) :
           "Average Price"}  in
-          {" " + this.props.region + " "} 
+          {" " + props.region + " "} 
           Over Time
         </h3>
       </div>
     )
   }
-}
+
 
 export default Chart
