@@ -155,6 +155,7 @@ export const Chart = (props) => {
   }
 
   const drawPlot = () => {
+    //Height and width are captured based on the view size. 
     const h = document.getElementById("chart").offsetHeight - 75;
     const w = document.getElementById("chart").offsetWidth;
     const padding = 75;
@@ -237,12 +238,12 @@ export const Chart = (props) => {
 
     const dateExtent = d3.extent(date, d => d);
 
-    const plotAdjuster = (valuesExtent[1] -  valuesExtent[0]) / 10;
-
+    const plotAdjuster = (valuesExtent[1] -  valuesExtent[0]) / 10; // 10% of the dataset range
+    
     const xScale = d3.scaleTime()
                       .domain([
-                        new Date(Date.parse(dateExtent[0]) - 2628000000), 
-                        new Date(Date.parse(dateExtent[1]) + 2628000000)
+                        new Date(Date.parse(dateExtent[0]) - 2628000000), // the number of milliseconds in a month
+                        new Date(Date.parse(dateExtent[1]) + 2628000000)  // extends my plot so points don't land on grid
                       ])
                       .range([padding, w - padding]);
 
@@ -274,15 +275,16 @@ export const Chart = (props) => {
         .attr("transform", "translate(75, 75)")
         .attr("id", "plot-background");
 
+    // Places the data points
     const point = svg.selectAll("circle")
         .data(tuples)
         .enter()
         .append("circle")
         .attr("cx", (d, i) => xScale(d[0]))
         .attr("cy", d => yScale(d[1]))
-        .attr("r", window.screen.width > 768 ? 4 : 2)
+        .attr("r", window.screen.width > 768 ? 4 : 1) // On a small screen the point radius is smaller
         .attr("class", "point");
-
+                      
     point.on("mouseover", d => {
       tooltip.transition()
             .duration(300)
@@ -300,6 +302,9 @@ export const Chart = (props) => {
             .style("display", "none");
     });
 
+    // Appends and positions my x-axis
+    // Since the plot labels collide on the x-axis on smaller screens this conditional checks the screen size
+    // If a small view-width is detected the x-axis labels will be rotated
     if(window.screen.width > 768){
       svg.append("g")
       .attr("transform", "translate(0," + (h - padding) + ")")
@@ -318,12 +323,13 @@ export const Chart = (props) => {
       .style("text-anchor", "start");
     }
 
+    // Appends and positions my y-axis
     svg.append("g")
        .attr("transform", "translate(75, 0)")
        .attr("class", "y axis")
        .call(yAxis);
-    
 
+    // Appends and positions my grid lines for the x-axis
     svg.append("g")			
       .attr("class", "x grid")
       .attr("transform", "translate(0," + (h - padding) + ")")
@@ -332,6 +338,7 @@ export const Chart = (props) => {
           .tickFormat("")
       )
 
+    // Appends and positions my grid lines for the y-axis
     svg.append("g")			
       .attr("class", "y grid")
       .attr("transform", "translate(75, 0)")
@@ -340,6 +347,8 @@ export const Chart = (props) => {
           .tickFormat("")
       )
     
+    //Updating the plot is slightly different than initially plotting it so the button tied to the plot function
+    //is removed upon first plot. The update button tied to the update function is then displayed. 
     document.getElementById("plot-button").style.display = "none";
     document.getElementById("update-button").style.display = "block";
 
@@ -352,9 +361,15 @@ export const Chart = (props) => {
         <button id="plot-button" onClick={drawPlot}>Plot</button>
         <button id="update-button" onClick={update}>Update</button>
         <h3>
+          {/* Based on the field selections a title for the chart is generated */}
+
+          {/* If a type is selected return it and if no selection has been made thus far dispaly conventional */}
           {props.type.length > 1 ? 
           props.type.charAt(0).toUpperCase() + props.type.slice(1) + " ": 
           "Conventional "} 
+
+          {/* A ternary operator nested in another */}
+          {/* If a data_focus has been chosen return it or average price */}
           {props.data_focus.length > 1 ? 
             (props.data_focus.charAt(0) === "4" ? 
             props.data_focus.slice(7, props.data_focus.length) :

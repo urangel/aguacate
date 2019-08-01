@@ -48,25 +48,20 @@ export class FieldSelection extends Component {
     this.getUniqueRegions();
   }
 
-  componentDidUpdate(){
-    // if(Object.keys(this.state.data).length < 1 ){
-    //   this.getData(this.state.region, this.state.type);
-    // }
-    // this.getData(this.state.region, this.state.type);
-  }
-
   addSearch = (searchObject) => {
     this.setState({
       previousSearches: [...this.state.previousSearches, searchObject]
     })
   }
 
+  //State controlled input elements 
   handleChange = (e) => {
     let {name, value} = e.target;
     this.setState({
       [e.target.name]: e.target.value
     }) 
     if (e.target.name === "region"){
+      //upon region selection, the data is retreived from the DB
       this.getData(e.target.value);
     }
   }
@@ -80,6 +75,7 @@ export class FieldSelection extends Component {
             <svg id="title-svg" viewBox="0 0 75 25">
               <text x="0" y="15">Aguacate</text>
             </svg>
+            {/* Only display the About section on larger width screens as it takes up too much space otherwise */}
             {window.screen.width > 640 ? <About/> : <div></div>}
             <div id="previous-searches">
               {/* {this.state.previousSearches.map(each => {
