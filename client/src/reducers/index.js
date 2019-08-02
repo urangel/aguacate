@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import region from './regionReducer'
+import { regionReducer } from './regionReducer'
 
 export default combineReducers({
-  region
+  regionReducer
 })

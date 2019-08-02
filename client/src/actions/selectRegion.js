@@ -1,4 +1,4 @@
 export const selectRegion = region => ({
-    type: "SELECTREGION",
+    type: "SELECT-REGION",
     payload: region
 });

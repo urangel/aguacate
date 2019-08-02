@@ -1,0 +1,134 @@
+body {
+  background: url("/green_cup.png");
+  color: #222;
+  font-family: "Pacifico";
+}
+
+h1 {
+  font-size: 5rem;
+  font-weight: 1;
+}
+
+h3 {
+  font-weight: 1;
+  text-align: center;
+  margin: 0;
+}
+
+select, button {
+  font-family: Roboto;
+  font-weight: bold;
+  padding: 5px;
+  margin-right: 5px;
+  border-radius: 3px;
+}
+
+select{
+  z-index: 1;
+  width: 22.2%;
+}
+a {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  color: #eee;
+  font-weight: normal;
+}
+button {
+  background: linear-gradient(to right, olive, olivedrab);
+  color: #eee;
+  border-style: none;
+  padding: 5px 20px;
+}
+
+button:hover{
+  background: linear-gradient(to right, olivedrab, olive);
+  cursor: pointer;
+}
+
+path { 
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.point:hover{
+  fill: olivedrab;
+  opacity: 0.8;
+  cursor: help;
+}
+
+.point {
+  fill: olive;
+}
+
+.axis {
+  fill: #222;
+}
+
+.grid {
+  opacity: .2;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 5px;
+  border-radius: 3px;
+  background: linear-gradient(to right, olive, olivedrab);
+  color: #eee;
+  font-family: Roboto;
+}
+#about-text{
+  font-family: Roboto;
+  font-weight: bold;
+}
+#grid{
+  display: grid;
+  grid-template-columns: 33% 67%;
+  max-height: 20vh;
+}
+/* #previous-searches{
+  overflow: scroll;
+} */
+#top-content{
+  max-height: 20vh;
+}
+#chart{
+  width: 100%;
+  min-height: 80vh;
+  max-height: 80vh;
+  position: relative;
+}
+#select-div{
+  display: flex;
+  justify-content: flex-end;
+}
+#title-svg{
+  width: 100%;
+}
+#title-svg text {
+  font-family: "Pacifico";
+  fill: #222;
+}
+
+#update-button{
+  display: none;
+}
+
+@media only screen and (max-width: 992px){
+  select{
+    flex-basis: 1;
+  }
+  #select-div{
+    justify-content: flex-end;
+  }
+  h2{
+    margin: 5px 0;
+  }
+}

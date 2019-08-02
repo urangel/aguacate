@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Chart from "../components/Chart"
+import Chart from "./Chart"
 import API from "../util/API"
-import About from "../components/About"
+import About from "./About"
 // import Avocado from "../components/Avocado"
 
 export class FieldSelection extends Component {
@@ -18,6 +18,21 @@ export class FieldSelection extends Component {
       previousSearches: []
     }
 
+  }
+  
+  componentDidMount() {
+    this.getUniqueRegions();
+  }
+
+  //State controlled input elements 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    }) 
+    if (e.target.name === "region"){
+      //upon region selection, the data is retreived from the DB
+      this.getData(e.target.value);
+    }
   }
 
   getUniqueRegions = () => {
@@ -44,27 +59,12 @@ export class FieldSelection extends Component {
       });
   }
 
-  componentDidMount() {
-    this.getUniqueRegions();
-  }
-
   addSearch = (searchObject) => {
     this.setState({
       previousSearches: [...this.state.previousSearches, searchObject]
     })
   }
 
-  //State controlled input elements 
-  handleChange = (e) => {
-    let {name, value} = e.target;
-    this.setState({
-      [e.target.name]: e.target.value
-    }) 
-    if (e.target.name === "region"){
-      //upon region selection, the data is retreived from the DB
-      this.getData(e.target.value);
-    }
-  }
 
   render() {
     return (
