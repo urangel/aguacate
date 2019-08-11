@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import Chart from "./Chart"
+import Chart from "../components/Chart"
 import API from "../util/API"
-import About from "./About"
-// import Avocado from "../components/Avocado"
+import About from "../components/About"
+import { connect } from 'react-redux'
+import { selectRegion } from "../actions/selectRegion"
+import { addSearch } from '../actions/addSearch'
 
 export class FieldSelection extends Component {
   
@@ -26,11 +28,15 @@ export class FieldSelection extends Component {
 
   //State controlled input elements 
   handleChange = (e) => {
+    //here instead do it with redux
+    this.props.addNewRegion(e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     }) 
     if (e.target.name === "region"){
       //upon region selection, the data is retreived from the DB
+      //Here would be an easy way to dispatch
+      //
       this.getData(e.target.value);
     }
   }
@@ -62,7 +68,8 @@ export class FieldSelection extends Component {
   addSearch = (searchObject) => {
     this.setState({
       previousSearches: [...this.state.previousSearches, searchObject]
-    })
+    });
+    this.props.addNewSearch(searchObject.region, searchObject.data_focus, searchObject.type);
   }
 
 
@@ -126,4 +133,25 @@ export class FieldSelection extends Component {
   }
 }
 
-export default FieldSelection
+const mapStateToProps = (state) => {
+  return {
+    region: state.region,
+    previousSearches: state.previousSearches
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewRegion: (region) => {
+      dispatch(selectRegion(region))
+    },
+    addNewSearch: (region, data_focus, type) => {
+      dispatch(addSearch((region, data_focus, type)))
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FieldSelection);

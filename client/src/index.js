@@ -4,14 +4,17 @@ import * as serviceWorker from './serviceWorker';
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 import rootReducer from "./reducers"
-import { Container } from "./containers/Container"
+import FieldSelection from './containers/FieldSelection'
 import './index.css';
 
-const store = createStore(rootReducer);
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Container/>
+    <FieldSelection />
   </Provider>
   , document.getElementById('root'));
 
