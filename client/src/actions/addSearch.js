@@ -1,8 +1,4 @@
-export const addSearch = (region, data_focus, type) => ({
+export const addSearch = (data) => ({
   type: "ADD-SEARCH",
-  payload: [
-    region,
-    data_focus,
-    type
-  ]
+  payload: data
 });

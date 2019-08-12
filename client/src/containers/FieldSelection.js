@@ -8,7 +8,6 @@ import { addSearch } from '../actions/addSearch'
 import { hydrateData } from '../actions/hydrateData'
 import { selectDataFocus } from '../actions/selectDataFocus'
 import { selectType } from '../actions/selectType'
-// import RegionSelect from './RegionSelect'
 
 
 export class FieldSelection extends Component {
@@ -30,9 +29,9 @@ export class FieldSelection extends Component {
     this.getUniqueRegions();
   }
 
-  //State controlled input elements 
+  //State controlled input elements, now through redux
+  //Switch routes to appropriate action dispatch based on the select element interacted with 
   handleChange = (e) => {
-    //here instead do it with redux
     switch(e.target.name){
       case 'region':
         this.props.addNewRegion(e.target.value);
@@ -48,16 +47,6 @@ export class FieldSelection extends Component {
         console.log("How'd this happen?");
         break;
       }
-    
-    // this.setState({
-    //   [e.target.name]: e.target.value
-    // }) 
-    // if (e.target.name === "region"){
-    //   //upon region selection, the data is retreived from the DB
-    //   //Here would be an easy way to dispatch
-    //   //
-    //   this.getData(e.target.value);
-    // }
   }
 
   getUniqueRegions = () => {
@@ -75,11 +64,7 @@ export class FieldSelection extends Component {
   getData = (region) => {
     API.getData(region)
       .then( res => {
-        // this.setState({
-        //   data: res.data
-        // })
         this.props.hydrateData(res.data);
-
       })
       .catch((err) => {
         console.log(err);
@@ -90,7 +75,7 @@ export class FieldSelection extends Component {
     // this.setState({
     //   previousSearches: [...this.state.previousSearches, searchObject]
     // });
-    this.props.addNewSearch(searchObject.region, searchObject.data_focus, searchObject.type);
+    this.props.addNewSearch(searchObject);
   }
 
 
@@ -111,17 +96,15 @@ export class FieldSelection extends Component {
               })} */}
             </div>
           </div>
-          
-          {/* <Avocado/> */}
+
           <div id="select-div">
-            <select name="region" value={this.props.region[this.props.region.length-1]} onChange={this.handleChange}>
+
+            <select id='region-select' name="region" value={this.props.region} onChange={this.handleChange}>
               <option> -- Choose a Region -- </option>
               {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
             </select>
-            {/* <RegionSelect/> */}
             
-            <select name="data_focus" value={this.props.data_focus[this.props.data_focus.length-1]} onChange={this.handleChange}>
-              <option> -- Choose Data of Interest -- </option>
+            <select id='data-focus-select' name="data_focus" value={this.props.data_focus} onChange={this.handleChange}>
               <option>4046 - Total SM Sold</option>
               <option>4046 - Total SM Bags Sold</option>
               <option>4225 - Total LG Sold</option>
@@ -134,19 +117,19 @@ export class FieldSelection extends Component {
             </select>
 
 
-            <select name="type" value={this.props.type[this.props.type.length-1]} onChange={this.handleChange}>
-              <option> -- Choose Type -- </option>
+            <select id='type-select' name="type" value={this.props.type} onChange={this.handleChange}>
               <option>Conventional</option>
               <option>Organic</option>
             </select>
+
           </div>
         </div>
         
         <Chart 
           data={this.props.data} 
           region={this.props.region} 
-          type={this.state.type.toLocaleLowerCase()} 
-          data_focus={this.state.data_focus}
+          type={this.props.type.toLocaleLowerCase()} 
+          data_focus={this.props.data_focus}
           addSearch={(searchObject) => this.addSearch(searchObject)}
         />
         
@@ -157,11 +140,11 @@ export class FieldSelection extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    region: state.region,
+    region: state.region[state.region.length-1],
     previousSearches: state.previousSearches,
     data: state.data[state.data.length-1],
-    data_focus: state.data_focus,
-    type: state.type
+    data_focus: state.data_focus[state.data_focus.length-1],
+    type: state.type[state.type.length-1]
   }
 }
 

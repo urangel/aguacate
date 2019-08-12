@@ -4,6 +4,13 @@ import * as d3 from "d3"
 export const Chart = (props) => {
   
   const update = () => {
+    let selectEl = document.getElementById('region-select');
+    if(props.region === '-- Choose a Region --'){
+      selectEl.style.border = '1px solid red';
+      return;
+    }
+    selectEl.style.border = 'none';
+
     document.getElementById("tooltip").remove();
     const plot_svg = document.getElementById("plot-svg");
     const rect = plot_svg.getBoundingClientRect();
@@ -155,6 +162,14 @@ export const Chart = (props) => {
   }
 
   const drawPlot = () => {
+    let selectEl = document.getElementById('region-select');
+    if(props.region === ' -- Choose a Region -- '){
+      selectEl.style.border = '1px solid red';
+      return;
+    }
+    selectEl.style.border = 'none';
+
+
     //Height and width are captured based on the view size. 
     const h = document.getElementById("chart").offsetHeight - 75;
     const w = document.getElementById("chart").offsetWidth;
@@ -362,19 +377,13 @@ export const Chart = (props) => {
         <button id="update-button" onClick={update}>Update</button>
         <h3>
           {/* Based on the field selections a title for the chart is generated */}
-
-          {/* If a type is selected return it and if no selection has been made thus far dispaly conventional */}
-          {props.type.length > 1 ? 
-          props.type.charAt(0).toUpperCase() + props.type.slice(1) + " ": 
-          "Conventional "} 
-
-          {/* A ternary operator nested in another */}
-          {/* If a data_focus has been chosen return it or average price */}
-          {props.data_focus.length > 1 ? 
-            (props.data_focus.charAt(0) === "4" ? 
+    
+          { props.type.charAt(0).toUpperCase() + props.type.slice(1) + " " } 
+          {
+            props.data_focus.charAt(0) === "4" ? 
             props.data_focus.slice(7, props.data_focus.length) :
-            props.data_focus) :
-          "Average Price"}  in
+            props.data_focus
+          }  in
           {" " + props.region + " "} 
           Over Time
         </h3>
