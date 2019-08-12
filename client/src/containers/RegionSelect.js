@@ -12,7 +12,7 @@ export class RegionSelect extends Component {
     super(props);
 
     this.state = {
-      regions: {}
+      regions: []
     }
   }
 
@@ -28,7 +28,6 @@ export class RegionSelect extends Component {
     //   [e.target.name]: e.target.value
     // }) 
     this.getData(e.target.value);
-    console.log(store.getState());
   }
 
   getUniqueRegions = () => {
@@ -61,9 +60,9 @@ export class RegionSelect extends Component {
     return (
       <div>
         <select name="region" value={this.props.region[this.props.region.length-1]} onChange={this.handleChange}>
-            <option> -- Choose a Region -- </option>
-            {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
-          </select>
+          <option> -- Choose a Region -- </option>
+          {this.state.regions.map(region => <option key={region}>{region}</option>)}
+        </select>
       </div>
     )
   }

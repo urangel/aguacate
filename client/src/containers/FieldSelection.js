@@ -5,7 +5,11 @@ import About from "../components/About"
 import { connect } from 'react-redux'
 import { selectRegion } from "../actions/selectRegion"
 import { addSearch } from '../actions/addSearch'
-import RegionSelect from '../components/RegionSelect'
+import { hydrateData } from '../actions/hydrateData'
+import { selectDataFocus } from '../actions/selectDataFocus'
+import { selectType } from '../actions/selectType'
+// import RegionSelect from './RegionSelect'
+
 
 export class FieldSelection extends Component {
   
@@ -22,23 +26,38 @@ export class FieldSelection extends Component {
 
   }
   
-  // componentDidMount() {
-  //   this.getUniqueRegions();
-  // }
+  componentDidMount() {
+    this.getUniqueRegions();
+  }
 
   //State controlled input elements 
   handleChange = (e) => {
     //here instead do it with redux
-    this.props.addNewRegion(e.target.value);
-    this.setState({
-      [e.target.name]: e.target.value
-    }) 
-    if (e.target.name === "region"){
-      //upon region selection, the data is retreived from the DB
-      //Here would be an easy way to dispatch
-      //
-      this.getData(e.target.value);
-    }
+    switch(e.target.name){
+      case 'region':
+        this.props.addNewRegion(e.target.value);
+        this.getData(e.target.value);
+        break;
+      case 'data_focus':
+        this.props.selectDataFocus(e.target.value);
+        break;
+      case 'type':
+        this.props.selectType(e.target.value);
+        break;        
+      default:
+        console.log("How'd this happen?");
+        break;
+      }
+    
+    // this.setState({
+    //   [e.target.name]: e.target.value
+    // }) 
+    // if (e.target.name === "region"){
+    //   //upon region selection, the data is retreived from the DB
+    //   //Here would be an easy way to dispatch
+    //   //
+    //   this.getData(e.target.value);
+    // }
   }
 
   getUniqueRegions = () => {
@@ -56,9 +75,11 @@ export class FieldSelection extends Component {
   getData = (region) => {
     API.getData(region)
       .then( res => {
-        this.setState({
-          data: res.data
-        })
+        // this.setState({
+        //   data: res.data
+        // })
+        this.props.hydrateData(res.data);
+
       })
       .catch((err) => {
         console.log(err);
@@ -66,9 +87,9 @@ export class FieldSelection extends Component {
   }
 
   addSearch = (searchObject) => {
-    this.setState({
-      previousSearches: [...this.state.previousSearches, searchObject]
-    });
+    // this.setState({
+    //   previousSearches: [...this.state.previousSearches, searchObject]
+    // });
     this.props.addNewSearch(searchObject.region, searchObject.data_focus, searchObject.type);
   }
 
@@ -93,13 +114,13 @@ export class FieldSelection extends Component {
           
           {/* <Avocado/> */}
           <div id="select-div">
-            {/* <select name="region" value={this.props.region} onChange={this.handleChange}>
+            <select name="region" value={this.props.region[this.props.region.length-1]} onChange={this.handleChange}>
               <option> -- Choose a Region -- </option>
               {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
-            </select> */}
-            <RegionSelect/>
+            </select>
+            {/* <RegionSelect/> */}
             
-            <select name="data_focus" value={this.state.data_focus} onChange={this.handleChange}>
+            <select name="data_focus" value={this.props.data_focus[this.props.data_focus.length-1]} onChange={this.handleChange}>
               <option> -- Choose Data of Interest -- </option>
               <option>4046 - Total SM Sold</option>
               <option>4046 - Total SM Bags Sold</option>
@@ -113,7 +134,7 @@ export class FieldSelection extends Component {
             </select>
 
 
-            <select name="type" value={this.state.type} onChange={this.handleChange}>
+            <select name="type" value={this.props.type[this.props.type.length-1]} onChange={this.handleChange}>
               <option> -- Choose Type -- </option>
               <option>Conventional</option>
               <option>Organic</option>
@@ -138,7 +159,9 @@ const mapStateToProps = (state) => {
   return {
     region: state.region,
     previousSearches: state.previousSearches,
-    data: state.data[state.data.length-1]
+    data: state.data[state.data.length-1],
+    data_focus: state.data_focus,
+    type: state.type
   }
 }
 
@@ -149,6 +172,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     addNewSearch: (region, data_focus, type) => {
       dispatch(addSearch((region, data_focus, type)))
+    },
+    hydrateData: data => {
+      dispatch(hydrateData(data))
+    },
+    selectDataFocus: data_focus => {
+      dispatch(selectDataFocus(data_focus))
+    },
+    selectType: type => {
+      dispatch(selectType(type))
     }
   }
 }
