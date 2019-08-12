@@ -1,6 +1,6 @@
-export const regionReducer = (state = ['Houston'], action) => {
+export const hydrateDataReducer = (state = [], action) => {
   switch (action.type){
-    case "SELECT-REGION":
+    case "HYDRATE-DATA":
       return [...state, action.payload];
     default:
       return state;

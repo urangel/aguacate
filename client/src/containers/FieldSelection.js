@@ -5,6 +5,7 @@ import About from "../components/About"
 import { connect } from 'react-redux'
 import { selectRegion } from "../actions/selectRegion"
 import { addSearch } from '../actions/addSearch'
+import RegionSelect from '../components/RegionSelect'
 
 export class FieldSelection extends Component {
   
@@ -13,7 +14,6 @@ export class FieldSelection extends Component {
 
     this.state = {
       regions: {},
-      region: "",
       type: "",
       data_focus: "",
       data: {},
@@ -22,9 +22,9 @@ export class FieldSelection extends Component {
 
   }
   
-  componentDidMount() {
-    this.getUniqueRegions();
-  }
+  // componentDidMount() {
+  //   this.getUniqueRegions();
+  // }
 
   //State controlled input elements 
   handleChange = (e) => {
@@ -93,10 +93,11 @@ export class FieldSelection extends Component {
           
           {/* <Avocado/> */}
           <div id="select-div">
-            <select name="region" value={this.state.region} onChange={this.handleChange}>
+            {/* <select name="region" value={this.props.region} onChange={this.handleChange}>
               <option> -- Choose a Region -- </option>
               {Object.values(this.state.regions).map(region => <option key={region}>{region}</option>)}
-            </select>
+            </select> */}
+            <RegionSelect/>
             
             <select name="data_focus" value={this.state.data_focus} onChange={this.handleChange}>
               <option> -- Choose Data of Interest -- </option>
@@ -121,8 +122,8 @@ export class FieldSelection extends Component {
         </div>
         
         <Chart 
-          data={this.state.data} 
-          region={this.state.region} 
+          data={this.props.data} 
+          region={this.props.region} 
           type={this.state.type.toLocaleLowerCase()} 
           data_focus={this.state.data_focus}
           addSearch={(searchObject) => this.addSearch(searchObject)}
@@ -136,7 +137,8 @@ export class FieldSelection extends Component {
 const mapStateToProps = (state) => {
   return {
     region: state.region,
-    previousSearches: state.previousSearches
+    previousSearches: state.previousSearches,
+    data: state.data[state.data.length-1]
   }
 }
 
